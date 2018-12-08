@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>game 1</title>
+        <style media="screen">
+            canvas {
+                border: 1px black solid;
+            }
+        </style>
+        <!-- gua game 相关文件 -->
+        <script src='guagame/utils.js'></script>
+        <script src='guagame/mouse.js'></script>
+        <script src='guagame/gua_game.js'></script>
+        <script src='guagame/gua_scene.js'></script>
+        <script src='guagame/gua_image.js'></script>
+        <script src='guagame/gua_particle_system.js'></script>
+        <script src='guagame/gua_label.js'></script>
+        <script src='guagame/gua_animation.js'></script>
+        <!-- 场景文件 -->
+        <script src='scene/main/paddle.js'></script>
+        <script src='scene/main/ball.js'></script>
+        <script src='scene/main/block.js'></script>
+        <script src='scene/main/scene.js'></script>
+        <!-- 结束和标题场景 -->
+        <script src='scene/end/scene_end.js'></script>
+        <script src='scene/title/scene_title.js'></script>
+        <!-- 关卡数据 -->
+        <script src='level.js'></script>
+    </head>
+    <body>
+        <canvas id="id-canvas" width="400" height="500"></canvas>
+        <hr>
+        <input id=id-input-speed type="range" value="1">
+        <div class="">
+            <!-- <textarea id="id-text-log" rows="20" cols="50"></textarea> -->
+        </div>
+        <div class="allConfigs"></div>
+        <script src=main.js></script>
+        <script>
+            var createConfig = function (config) {
+                var modal = `<div class="">
+                    <label>
+                        <input class="gua-auto-slider" type="range"
+                               value=""
+                               ${config.special}
+                               data-value="config.${config.key}"
+                        >
+                        ${config.name}<span class="gua-label"></span>
+                    </label>
+                </div>`
+                return modal
+            }
+            var addConfigIntoPage = function () {
+                var configs = [
+                    { key: 'player_speed', name: '玩家速度:', special: ''},
+                    { key: 'cloud_speed', name: '云朵速度:', special: 'max=\'10\' min="-10"'},
+                    { key: 'enemy_speed', name: '敌机速度:', special:'max=\'10\''},
+                    { key: 'bullet_speed', name: '子弹速度:', special:''},
+                    { key: 'fire_cooldown', name: '发射冷却:', special: 'max=\'10\''},
+                ]
+                var conEle = document.querySelector('.allConfigs')
+                for (var i = 0; i < configs.length; i++) {
+                    var con = configs[i]
+                    var each = createConfig(con)
+                    conEle.insertAdjacentHTML('beforeend', each)
+                }
+
+            }
+            addConfigIntoPage()
+
+            var es = sel => document.querySelectorAll(sel)
+
+            var bindAll = function (sel, eventName, callback) {
+                var l = es(sel)
+                for (var i = 0; i < l.length; i++) {
+                    var input = l[i]
+                    input.addEventListener(eventName, function (event) {
+                        callback(event)
+                    })
+                }
+            }
+            bindAll('.gua-auto-slider', 'input', function (event) {
+                var target = event.target
+                var bindVar = target.dataset.value
+                var v = target.value
+                eval(bindVar + '=' + v)
+                var label = target.closest('label').querySelector('.gua-label')
+                label.innerText = v
+            })
+        </script>
+    </body>
+</html>
