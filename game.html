@@ -60,7 +60,7 @@
                     { key: 'fire_cooldown', name: '发射冷却:', special: 'max=\'10\''},
                 ]
                 var conEle = document.querySelector('.allConfigs')
-                for (var i = 0; i < configs.length; i++) {
+                for (let i = 0; i < configs.length; i++) {
                     var con = configs[i]
                     var each = createConfig(con)
                     conEle.insertAdjacentHTML('beforeend', each)
@@ -69,9 +69,9 @@
             }
             addConfigIntoPage()
 
-            var es = sel => document.querySelectorAll(sel)
+            let es = sel => document.querySelectorAll(sel)
 
-            var bindAll = function (sel, eventName, callback) {
+            let bindAll = function (sel, eventName, callback) {
                 var l = es(sel)
                 for (var i = 0; i < l.length; i++) {
                     var input = l[i]
@@ -81,11 +81,11 @@
                 }
             }
             bindAll('.gua-auto-slider', 'input', function (event) {
-                var target = event.target
-                var bindVar = target.dataset.value
-                var v = target.value
+                let target = event.target
+                let bindVar = target.dataset.value
+                let v = target.value
                 eval(bindVar + '=' + v)
-                var label = target.closest('label').querySelector('.gua-label')
+                let label = target.closest('label').querySelector('.gua-label')
                 label.innerText = v
             })
         </script>
