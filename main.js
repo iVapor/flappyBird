@@ -35,19 +35,19 @@ var enableDebugMode = function(game, enable) {
 
 var __main = function() {
     var images = {
-        bullet: 'img/bullet.png',
-        cloud0: 'img/cloud0.png',
-        cloud1: 'img/cloud1.png',
-        player: 'img/player.png',
-        sky: 'img/sky.png',
+        bullet: 'img/fly/bullet.png',
+        cloud0: 'img/fly/cloud0.png',
+        cloud1: 'img/fly/cloud1.png',
+        player: 'img/fly/player.png',
+        sky: 'img/fly/sky.png',
 
-        enemy0: 'img/enemy0.png',
-        enemy1: 'img/enemy1.png',
-        enemy2: 'img/enemy2.png',
-        enemy3: 'img/enemy3.png',
-        enemy4: 'img/enemy4.png',
+        enemy0: 'img/fly/enemy0.png',
+        enemy1: 'img/fly/enemy1.png',
+        enemy2: 'img/fly/enemy2.png',
+        enemy3: 'img/fly/enemy3.png',
+        enemy4: 'img/fly/enemy4.png',
 
-        fire:'img/fire.png',
+        fire:'img/fly/fire.png',
 
         run0:'img/run/run0.png',
         run1:'img/run/run1.png',
@@ -72,8 +72,18 @@ var __main = function() {
         cloth4: 'img/cloth/cloth4.png',
         cloth5: 'img/cloth/cloth5.png',
         cloth6: 'img/cloth/cloth6.png',
+
+        // 像素鸟
+        land: 'img/bird/land.png',
+        blueSky: 'img/bird/blueSky.png',
+        backGround: 'img/bird/backGround.png',
+        bird0: 'img/bird/bird0.png',
+        bird1: 'img/bird/bird1.png',
+        bird2: 'img/bird/bird2.png',
+        bird3: 'img/bird/bird3.png',
+
     }
-    var game = GuaGame.instance(8, images, function(g){
+    var game = GuaGame.instance(20, images, function(g){
         var s = SceneTitle.new(g)
         // var s = Scene.new(g)
         g.runWithScene(s)

@@ -3,35 +3,37 @@ class GuaAnimation {
         this.game = game
         //为了省事，在这里硬编码一套动画
         this.animations = {
-            card: [],
-            cloth: [],
+            idle: [],
         }
-        for (let i = 1; i < 5; i++) {
-            let name = `card${i}`
+        for (let i = 0; i < 4; i++) {
+            let name = `bird${i}`
             let t = game.textureByName(name)
-            this.animations['card'].push(t)
+            this.animations['idle'].push(t)
         }
-        for (let i = 1; i < 7; i++) {
-            let name = `cloth${i}`
-            let t = game.textureByName(name)
-            this.animations['cloth'].push(t)
-        }
-        this.animationName = 'card'
+        this.animationName = 'idle'
         this.texture = this.frames()[0]
+
         this.w = this.texture.width
         this.h = this.texture.height
         this.frameIndex = 0
-        this.frameCount = 20
+        this.frameCount = 3
 
         this.flipX = false
+        // 重力和加速度
+        this.gy = 10
+        this.vy = 0
     }
     static new(game) {
         return new this(game)
     }
     frames() {
+        log('this.animations', this.animations[this.animationName], this.animationName)
         return this.animations[this.animationName]
     }
     update() {
+        // 更新受力
+        this.y += this.vy
+        this.vy += this.gy * 0.2
         this.frameCount--
         if (this.frameCount === 0) {
             this.frameCount = 3
@@ -57,7 +59,6 @@ class GuaAnimation {
     move(x, keyStatus){
         this.flipX = x < 0
         this.x += x
-        log('event', keyStatus)
         var animationNames = {
             down: 'cloth',
             up: 'card',
