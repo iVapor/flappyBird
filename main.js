@@ -17,7 +17,7 @@ var enableDebugMode = function(game, enable) {
     window.paused = false
     window.addEventListener('keydown', function(event){
         var k = event.key
-        if (k == 'p') {
+        if (k === 'p') {
             // 暂停功能
             window.paused = !window.paused
         } else if ('1234567'.includes(k)) {

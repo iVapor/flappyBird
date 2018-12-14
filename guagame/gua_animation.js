@@ -19,6 +19,8 @@ class GuaAnimation {
         this.frameCount = 3
 
         this.flipX = false
+        this.rotation = 0
+        this.alpha = 1
         // 重力和加速度
         this.gy = 10
         this.vy = 0
@@ -27,14 +29,30 @@ class GuaAnimation {
         return new this(game)
     }
     frames() {
-        log('this.animations', this.animations[this.animationName], this.animationName)
         return this.animations[this.animationName]
     }
+    jump() {
+        this.vy = -10
+        this.rotation = -45
+    }
     update() {
+        // 更新 alpha
+        if (this.alpha > 0) {
+            this.alpha -= 0.05
+        }
         // 更新受力
         this.y += this.vy
         this.vy += this.gy * 0.2
         this.frameCount--
+        let h = 364
+        if (this.y > h) {
+            this.y = h
+        }
+        // 更新角度
+        if (this.rotation < 45) {
+            this.rotation += 5
+        }
+
         if (this.frameCount === 0) {
             this.frameCount = 3
             this.frameIndex = (this.frameIndex + 1) % this.frames().length
@@ -43,27 +61,32 @@ class GuaAnimation {
     }
     draw() {
         let context = this.game.context
-        if (this.flipX) {
-            context.save();
-            let x = this.x + this.w / 2
-            context.translate(x, 0);
+        context.save();
+        let w2 = this.w / 2
+        let h2 = this.h / 2
+        // let x = this.x + this.w / 2
+        context.translate(this.x + w2, this.y + h2);
+        if(this.flipX) {
             context.scale(-1, 1);
-            context.translate(-x, 0);
-            // Draw the image
-            context.drawImage(this.texture, 0, 0);
-            context.restore();
-        } else {
-            context.drawImage(this.texture, this.x, this.y)
         }
+
+        context.globalAlpha = this.alpha
+        context.rotate(this.rotation * Math.PI / 180)
+        context.translate(-w2, -h2);
+        // Draw the image
+        context.drawImage(this.texture, 0, 0);
+        context.restore();
+
     }
     move(x, keyStatus){
         this.flipX = x < 0
         this.x += x
         var animationNames = {
-            down: 'cloth',
-            up: 'card',
+            down: 'idle',
+            up: 'idle',
         }
         var name = animationNames[keyStatus]
+
         this.changeAnimation(name)
 
     }
