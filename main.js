@@ -33,46 +33,8 @@ var enableDebugMode = function(game, enable) {
     })
 }
 
-var __main = function() {
-    var images = {
-        bullet: 'img/fly/bullet.png',
-        cloud0: 'img/fly/cloud0.png',
-        cloud1: 'img/fly/cloud1.png',
-        player: 'img/fly/player.png',
-        sky: 'img/fly/sky.png',
-
-        enemy0: 'img/fly/enemy0.png',
-        enemy1: 'img/fly/enemy1.png',
-        enemy2: 'img/fly/enemy2.png',
-        enemy3: 'img/fly/enemy3.png',
-        enemy4: 'img/fly/enemy4.png',
-
-        fire:'img/fly/fire.png',
-
-        run0:'img/run/run0.png',
-        run1:'img/run/run1.png',
-        run2:'img/run/run2.png',
-        run3:'img/run/run3.png',
-        run4:'img/run/run4.png',
-        run5:'img/run/run5.png',
-        run6:'img/run/run6.png',
-        run7:'img/run/run7.png',
-        // 多状态动画
-        // 递名片
-        card0: 'img/card/card0.png',
-        card1: 'img/card/card1.png',
-        card2: 'img/card/card2.png',
-        card3: 'img/card/card3.png',
-        card4: 'img/card/card4.png',
-        // 脱衣服
-        cloth0: 'img/cloth/cloth0.png',
-        cloth1: 'img/cloth/cloth1.png',
-        cloth2: 'img/cloth/cloth2.png',
-        cloth3: 'img/cloth/cloth3.png',
-        cloth4: 'img/cloth/cloth4.png',
-        cloth5: 'img/cloth/cloth5.png',
-        cloth6: 'img/cloth/cloth6.png',
-
+let __main = function() {
+    let images = {
         // 像素鸟
         land: 'img/bird/land.png',
         blueSky: 'img/bird/blueSky.png',
@@ -81,7 +43,9 @@ var __main = function() {
         bird1: 'img/bird/bird1.png',
         bird2: 'img/bird/bird2.png',
         bird3: 'img/bird/bird3.png',
-
+        pipe: 'img/bird/pipe.png',
+        pipeUp: 'img/bird/pipe_up.png',
+        pipeDown: 'img/bird/pipe_down.png',
     }
     var game = GuaGame.instance(20, images, function(g){
         var s = SceneTitle.new(g)
