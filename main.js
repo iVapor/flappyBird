@@ -46,6 +46,7 @@ let __main = function() {
         pipe: 'img/bird/pipe.png',
         pipeUp: 'img/bird/pipe_up.png',
         pipeDown: 'img/bird/pipe_down.png',
+        newPipe: 'img/bird/newPipe.png',
     }
     var game = GuaGame.instance(20, images, function(g){
         var s = SceneTitle.new(g)

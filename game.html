@@ -27,6 +27,8 @@
         <script src='scene/title/scene_title.js'></script>
         <!-- 关卡数据 -->
         <script src='level.js'></script>
+        <!--配置文件-->
+        <script src='config.js'></script>
     </head>
     <body>
         <canvas id="id-canvas" width="276" height="500"></canvas>
@@ -52,12 +54,16 @@
                 return modal
             }
             var addConfigIntoPage = function () {
+                log('in addConfigIntoPage')
                 var configs = [
                     { key: 'player_speed', name: '玩家速度:', special: ''},
                     { key: 'cloud_speed', name: '云朵速度:', special: 'max=\'10\' min="-10"'},
                     { key: 'enemy_speed', name: '敌机速度:', special:'max=\'10\''},
                     { key: 'bullet_speed', name: '子弹速度:', special:''},
                     { key: 'fire_cooldown', name: '发射冷却:', special: 'max=\'10\''},
+                    { key: 'pipe_space', name: '两个管子在垂直方向的距离', special: 'max="180" min="50"'},
+                    { key: 'pipe_narrow', name: '两个管子在横向间距', special: 'max="300" min="180"'},
+                    { key: 'bird_speed', name: '小鸟的速度', special: 'max="10" min="0.2"'},
                 ]
                 var conEle = document.querySelector('.allConfigs')
                 for (let i = 0; i < configs.length; i++) {
@@ -67,7 +73,7 @@
                 }
 
             }
-            addConfigIntoPage()
+
 
             let es = sel => document.querySelectorAll(sel)
 
@@ -80,14 +86,23 @@
                     })
                 }
             }
-            bindAll('.gua-auto-slider', 'input', function (event) {
-                let target = event.target
-                let bindVar = target.dataset.value
-                let v = target.value
-                eval(bindVar + '=' + v)
-                let label = target.closest('label').querySelector('.gua-label')
-                label.innerText = v
-            })
+
+            let bindEvents = function() {
+                bindAll('.gua-auto-slider', 'input', function (event) {
+                    let target = event.target
+                    let bindVar = target.dataset.value
+                    let v = target.value
+                    eval(bindVar + '=' + v)
+                    let label = target.closest('label').querySelector('.gua-label')
+                    label.innerText = v
+                })
+            }
+            let main = function () {
+                addConfigIntoPage()
+
+                bindEvents()
+            }
+            main()
         </script>
     </body>
 </html>

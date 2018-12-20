@@ -2,60 +2,46 @@ class Pipes {
     constructor(game) {
         this.game = game
         this.pipes = []
-        this.pipeSpace = 100
-        this.pipeNarrow = 100
+        this.pipeSpace = 150
+        // 管子的横向间距
+        this.pipeNarrow = 200
         this.columsofPipe = 3
         for (let i = 0; i < this.columsofPipe; i++) {
-            let p1 = GuaImage.new(game, 'pipeDown')
-            // p1.flipY = true
-            p1.x = 100 + i * this.pipeNarrow
-            let p2 = GuaImage.new(game, 'pipeUp')
+            let p1 = GuaImage.new(game, 'newPipe')
+            p1.flipY = true
+            p1.x = 500 + i * this.pipeNarrow
+            let p2 = GuaImage.new(game, 'newPipe')
             p2.x = p1.x
             this.resetPipesPosition(p1, p2)
-            // this.createUpPipe(game, p1.x, p1.y)
-            // this.createDownPipe(game, p2.x, p2.y)
             this.pipes.push(p1)
             this.pipes.push(p2)
             log('THIS.pipes', this.pipes, 'i', i)
-        }
-    }
-    //创建向上管子的下半部分
-    createUpPipe (game, px, py) {
-        log('px', px, 'py', py)
-        this.eachPipe = []
-        for (let i = py; i >= 0; i--) {
-            let g = GuaImage.new(game, 'pipe')
-            g.x = px
-            g.y = i
-            log('createUpPipe g.x', g.x, 'g.y', g.y)
-            this.pipes.push(g)
-        }
-    }
-    //创建向下管子的上半部分
-    createDownPipe (game, px, py) {
-        this.eachPipe = []
-        let maxHeight = 388
-        for (let i = py + 26; i <= maxHeight; i++) {
-            let g = GuaImage.new(game, 'pipe')
-            g.x = px
-            g.y = py + i
-            // log('createDownPipe g.y', g.y)
-            this.pipes.push(g)
         }
     }
     static new(game) {
         return new this(game)
     }
     resetPipesPosition(p1, p2) {
-        p1.y = randomBetween(0, 200)
+        p1.y = randomBetween(-300, 0)
         p2.y = p1.y + p1.h + this.pipeSpace
-        log('in resetPipesPosition, p1.y', p1.y, 'p2.y', p2.y)
+    }
+    debug() {
+        this.pipeNarrow = config.pipe_narrow
+        this.pipeSpace = config.pipe_space
     }
     update() {
-        for (let p of this.pipes) {
-            p.x -= 5
-            if (p.x < -100) {
-                p.x += this.pipeNarrow * this.columsofPipe
+
+        for (let i = 0; i < this.pipes.length / 2; i += 2) {
+            let p1 = this.pipes[i]
+            let p2 = this.pipes[i + 1]
+            p1.x -= 5
+            p2.x -= 5
+            if (p1.x < -100) {
+                p1.x += this.pipeNarrow * this.columsofPipe
+            }
+            if (p2.x < -100) {
+                p2.x += this.pipeNarrow * this.columsofPipe
+                this.resetPipesPosition(p1, p2)
             }
         }
     }
@@ -63,20 +49,19 @@ class Pipes {
         let context = this.game.context
         for (let p of this.pipes) {
             context.save();
-            let w2 = p / 2
+            let w2 = p.w / 2
             let h2 = p.h / 2
             // let x = this.x + this.w / 2
             context.translate(p.x + w2, p.y + h2);
-            // let scaleX = p.flipX ? -1 : 1
-            // let scaleY = p.flipY ? -1 : 1
-            // context.scale(scaleX, scaleY);
+            let scaleX = p.flipX ? -1 : 1
+            let scaleY = p.flipY ? -1 : 1
+            context.scale(scaleX, scaleY);
             context.rotate(p.rotation * Math.PI / 180)
             context.translate(-w2, -h2);
             // Draw the image
             context.drawImage(p.texture, 0, 0);
             context.restore();
         }
-
     }
 }
 
@@ -105,12 +90,16 @@ class SceneTitle extends GuaScene{
         }
         this.skipCount = 4
         // bird
+        this.birdSpeed = 2
         let b = GuaAnimation.new(game)
         b.x = 120
         b.y = 200
         this.bird = b
         this.addElement(b)
         this.setupInputs()
+    }
+    debug() {
+        this.birdSpeed = config.bird_speed
     }
     update() {
         super.update();
@@ -134,10 +123,11 @@ class SceneTitle extends GuaScene{
         let self = this
         let b = this.bird
         self.game.registerAction('a', function (keyStatus) {
-            b.move(-2, keyStatus)
+            b.move(-self.birdSpeed, keyStatus)
          })
         self.game.registerAction('d', function (keyStatus) {
-            b.move(2, keyStatus)
+            log('self.birdSpeed', self.birdSpeed)
+            b.move(self.birdSpeed, keyStatus)
          })
         self.game.registerAction('j', function (keyStatus) {
             b.jump()
